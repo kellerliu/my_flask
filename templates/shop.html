@@ -1,0 +1,108 @@
+<!doctype html>
+<html ng-app="logger">
+  <head>
+    <title>Shop</title>
+    <!-- thirdparty -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <!-- local 
+	<script src="{{url_for('static', filename='js/jquery-linedtextarea.js')}}"></script>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/jquery-linedtextarea.css')}}"  type="text/css" />
+    -->
+</head>
+
+  <script>
+
+    $(function() {
+	    $(".lined").linedtextarea(
+		    {selectedLine: 1}
+	    );
+    });
+
+  </script>
+
+  <body style="padding-top:80px">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Shop</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        </div>
+      </div>
+    </nav>
+
+    <form method="post" action="/shop">
+      <div class="container">
+        <table class="table table-bordered table-hover">
+            <tr>                
+                <th>ID</th>
+                <td >
+                    <textarea
+                        id="id_text" name="id_text" 
+                        cols="30%" rows="1%" 
+                        placeholder="Enter Id">{{id}}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+              <th>Choice</th>
+              <td>
+                  <select id="test_choice" name="test_choice">
+                      <option value="no"{% if my_choice =="no" %} selected{% endif %}>no</option>
+                      <option value="yes"{% if my_choice =="yes" %} selected{% endif %}>yes</option>
+                  </select>
+              </td>
+            </tr>
+
+            <tr>
+              <th> Submit </th>
+              <td>
+                 <b> <input type="submit" value="Submit" /> </b>
+              </td>
+            </tr>
+
+
+            {% if "error_response" in output_content %}
+            <tr>
+              <th> Error Response </th>
+                <td >
+                     {{output_content["error_response"]}} 
+                </td>
+            </tr>
+            {% elif "data" in output_content %}
+            <tr>
+              <th> Data </th>
+                <td >
+                     {{output_content["data"]}} 
+                </td>
+            </tr>
+
+            <tr>
+              <th> Link </th>
+                <td >
+                     <a href={{output_content["data"]["link"]}}
+                        target="_blank" > {{output_content["data"]["link"]}} </a>
+                </td>
+            </tr>
+            {% endif %}
+
+            {% if output_content %}
+            <tr>
+                <th> Output Debug</th>
+                <td >
+                    {{output_content}}
+                </td>
+            </tr>
+            {% endif %}
+
+          </table>
+	  </div>
+    </form>
+
+
+  </body>
+</html>
