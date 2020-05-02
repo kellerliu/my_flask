@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, redirect, render_template, request
+import datetime
+
 
 app = Flask(__name__)
 
@@ -30,23 +32,34 @@ def route_main():
 
 # render_template for get and post methods
 @app.route('/shop', methods=['GET','POST'])
-def low_stock():
+def do_shop():
+    #print("method", request.method)
     if request.method == 'GET':
+        #print("args", request.args)
         return render_template("shop.html",
                                id = request.args.get("id"),
-                               my_choice = request.args.get("my_choice")
+                               wrap = request.args.get("wrap")
                         )
     elif request.method == 'POST':
+        #print("form", request.form)
         id_text = request.form["id_text"]
-        my_choice = request.form["test_choice"]
+        wrap_choice = request.form["wrap_choice"]
+        color_choice = request.form["color_choice"]
+        start_text = request.form["start_text"]
+
+        if start_text == "":
+            start_text = "start_at_%s" %(datetime.datetime.now().strftime("%Y/%m/%d_%H:%M:%S"))
+
         output_content = {
             "data": {
-                "link": "http://www.google.com"
+                "link": "http://www.google.com/search?q=%s" %(id_text)
             }
         }
         return render_template("shop.html",
                                 id = id_text,
-                                my_choice = my_choice,
+                                wrap = wrap_choice,
+                                color = color_choice,
+                                start = start_text,
                                 output_content = output_content,
                         )
     else:

@@ -49,13 +49,45 @@
             </tr>
 
             <tr>
-              <th>Choice</th>
+              <th>Wrap Choice</th>
               <td>
-                  <select id="test_choice" name="test_choice">
-                      <option value="no"{% if my_choice =="no" %} selected{% endif %}>no</option>
-                      <option value="yes"{% if my_choice =="yes" %} selected{% endif %}>yes</option>
+                  <select id="wrap_choice" name="wrap_choice">
+                      <option value="no"{% if wrap =="no" %} selected{% endif %}>no</option>
+                      <option value="yes"{% if wrap =="yes" %} selected{% endif %}>yes</option>
                   </select>
               </td>
+            </tr>
+
+            <tr>
+              <th>Color Choice</th>
+              <td>
+                <!-- disable: choice can not be modified if wrap is "no" -->
+                <select
+                    id="color_choice" name="color_choice">
+                    <option value="red"
+                      {% if color =="red" %} selected
+                      {% elif wrap and wrap == "no" %} disabled
+                      {% endif %}>red</option>
+                    <option value="yellow"
+                      {% if color =="yellow" %} selected
+                      {% elif wrap and wrap == "no" %} disabled
+                      {% endif %}>yellow</option>
+                    <option value="blue"
+                      {% if color =="blue" %} selected
+                      {% elif wrap and wrap == "no" %} disabled
+                      {% endif %}>blue</option>
+                </select>
+            </td>
+            </tr>
+
+            <tr>
+              <th> Start Time </th>
+                <td >{{start}}
+                    <!-- hidden: input that are not directly  edited -->>
+                    <input type="hidden"
+                        id="start_text" name="start_text" 
+                        value={{start}}>
+                </td>
             </tr>
 
             <tr>
